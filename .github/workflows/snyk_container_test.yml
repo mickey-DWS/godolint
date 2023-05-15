@@ -2,11 +2,9 @@ name: Snyk Container Test
 
 on:
   push:
-    branches:
-      - master # Or replace with your default branch name
-  pull_reques:
-    branches:
-      - master # Or replace with your default branch name
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
   security:
