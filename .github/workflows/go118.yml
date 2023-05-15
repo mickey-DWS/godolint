@@ -1,5 +1,6 @@
 name: go1.18
 
+
 on:
   push:
     branches: [ master ]
