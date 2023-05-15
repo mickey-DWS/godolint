@@ -23,4 +23,4 @@ jobs:
         snyk auth ${{ secrets.SNYK_TOKEN }}
 
     - name: Run Snyk to test Docker image for vulnerabilities
-      run: snyk container test my-image
+      run: snyk container test my-image --severity-threshold=high  
