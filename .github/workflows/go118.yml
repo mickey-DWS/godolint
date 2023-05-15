@@ -1,26 +1,37 @@
-name: go1.18
-
+name: Snyk Vulnerability Scan
 on:
   push:
-    branches: [ master ]
+    branches:
+      - main
   pull_request:
-    branches: [ master ]
-
+    branches:
+      - main
 jobs:
-
-  build:
-    name: Build in Go1.18
+  Snyk_code_test:
+    name: Snyk Code Test
     runs-on: ubuntu-latest
     steps:
-
-      - name: Set up Go 1.18
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.18
-        id: go
-
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v3
-
-      - name: Test
-        run: go test -v -cover .
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install and run Snyk Code test
+        run: |
+          npm install -g snyk
+          snyk auth ${{ secrets.SNYK_TOKEN }}
+          snyk code test --severity-threshold=high
+          snyk monitor --all-projects
+  Snyk_oss_scan:
+    name: Snyk OSS Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+      - name: Authenticate with Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+      - name: Run Snyk to check for vulnerabilities
+        run: | 
+          snyk test --severity-threshold=high --fail-on=upgradable
+          snyk monitor --all-projects
