@@ -1,11 +1,9 @@
 name: Snyk Vulnerability Scan
 on:
   push:
-    branches:
-      - main
+    branches: [ master ]
   pull_request:
-    branches:
-      - main
+    branches: [ master ]
 jobs:
   Snyk_code_test:
     name: Snyk Code Test
