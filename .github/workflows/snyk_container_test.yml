@@ -1,0 +1,28 @@
+name: Snyk Container Test
+
+on:
+  push:
+    branches:
+      - master # Or replace with your default branch name
+  pull_reques:
+    branches:
+      - master # Or replace with your default branch name
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Build Docker image
+      run: docker build . --file Dockerfile --tag my-app
+
+    - name: Install Snyk
+      run: |
+        npm install -g snyk
+        snyk auth ${{ secrets.SNYK_TOKEN }}
+
+    - name: Run Snyk to test Docker image for vulnerabilities
+      run: snyk container test my-app　
