@@ -1,2 +1,2 @@
-FROM python:3.4
+FROM python:3.12.0b4
 ADD requirements.txt /usr/src/app/
